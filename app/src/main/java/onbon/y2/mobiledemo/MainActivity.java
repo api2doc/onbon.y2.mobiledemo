@@ -131,10 +131,10 @@ public class MainActivity extends AppCompatActivity {
     private void writeProgram() {
         try {
             TextArea area = new TextArea(0, 0, 400, 200);
-            area.addTextSection("Hello Everyone We are happy to release Y2 Java library for you")
+            area.addTextSection("！!大家好 Everyone")
                     .bgColor(Color.black)
                     .fgColor(Color.yellow)
-                    .getFont().size(40).bold().underline().strikethrough();
+                    .getFont().bold().underline().strikethrough();
 
             ProgramPlayFile file = new ProgramPlayFile(1);
             file.getAreas().add(area);

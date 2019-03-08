@@ -13,10 +13,16 @@ public class MainApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
+        // 將 Application 與 AWT 連結
         Env2a.link(this);
+
+        // 設定圖案是要抗鋸齒
         Env2a.configPaintAntiAliasFlag(true);
 
+        // 初始化 Y2 Library 運行環境
         Y2Env.initial(true);
-        Y2Font.DEFAULT_TYPE = Y2FontSizeType.POINT;
+
+        // 預設 Y2 Font
+        Y2Font.defaultFont("Droid", 40, Y2FontSizeType.PIXEL);
     }
 }

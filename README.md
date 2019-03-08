@@ -33,7 +33,7 @@ allprojects {
 
 * project.ext.set - 設定輸出檔案名稱。
 
-* dexOptions - 允許掛載 j2a-0.1-release.aar。
+* dexOptions - 允許掛載 j2a-0.1.1-release.aar。
 
 * dependencies - 定義 Y2 相關的 JAR & AAR 等檔案。檔案儲存在 __libs__ 資料夾下。
 
@@ -68,7 +68,7 @@ dependencies {
     compile files('libs/stax-api-1.0.1.jar')
     compile files('libs/uia-utils-0.2.0.jar')
     compile files('libs/xpp3-1.1.3.3.jar')
-    compile(name:'j2a-0.1-release', ext:'aar')
+    compile(name:'j2a-0.1.1-release', ext:'aar')
     ...
 }
 
@@ -106,8 +106,10 @@ package onbon.y2.mobiledemo;
 
 import android.app.Application;
 
+import onbon.y2.Y2Env;
+import onbon.y2.common.Y2Font;
+import onbon.y2.common.Y2FontSizeType;
 import uia.j2a.Env2a;
-import onbon.y2.Env;
 
 public class MainApplication extends Application {
 
@@ -115,12 +117,17 @@ public class MainApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
-        Env2a.link(this);                          // 將 Application 與 AWT 連結
-        Env2a.configPaintAntiAliasFlag(true);      // 設定圖案是要抗鋸齒。
+        // 將 Application 與 AWT 連結
+        Env2a.link(this);                          
 
-        // 初始化 Y2 Library 運行環境。
-        Y2Env.initial(true);
-        Y2Font.DEFAULT_TYPE = Y2FontSizeType.POINT;
+        // 設定圖案是要抗鋸齒
+        Env2a.configPaintAntiAliasFlag(true);      
+
+        // 初始化 Y2 Library 運行環境
+        Y2Env.initial(true);        
+
+        // 預設 Y2 Font        
+        Y2Font.defaultFont("Droid", 40, Y2FontSizeType.PIXEL);
     }
 }
 ```
