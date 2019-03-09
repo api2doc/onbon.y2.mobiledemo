@@ -1,22 +1,39 @@
-ONBON Y2 Java Library for Android
+Onbon Y2 Java Library for Android
 =====================
 
-[English](README_en.md)
+本文件說明如何在 [Android Studio](https://developer.android.com/studio/index.html) 開發環境下，開發 Onbon Y2 全彩控制卡應用程式。
 
-本文件說明如何在 [Android Studio](https://developer.android.com/studio/index.html) 開發環境下，使用 [Y2 Library](https://github.com/api2doc/onbon.y2.api) 開發項目。
+## 相關套件
 
-## 相依檔案
+* [Y2 Java Library](https://github.com/api2doc/onbon.y2.api) - Y2 函式庫
 
-### AAR
-* j2a-0.1-release.aar - 解決 J2SE java/javax 核心類別問題。
+* [Java to Android Adapter](https://github.com/api2doc/adapter4j) - 解決 `java.awt` 與 `javax` 問題
 
-## Project 相關設定
+### Y2 Java Library
+* __y2__ - Y2 核心函式庫
+  * commons-codec
+* __y2-message__ - Y2 訊息
+* __y2-Http__ - Y2 http 介面
+* __y2-http-ok__ - Y2 http 實作
+  * okhttp
+    * okio
+* __uia-utils__ - 通用函式庫
+* __simple-xml__ - XML 函式庫
+  * stax-api
+  * stax
+  * xpp3
+
+### Java to Android Adapter
+* __j2a__ - `java.awt`、`javax` 核心類別實作 (部分)。
+
+## IDE 設置
+### Project 相關設定
 
 #### build.gradle
 
 * flatDir - 設定相依 libs 的儲存位置。
 
-``` gradle
+``` yaml
 allprojects {
     repositories {
         jcenter()
@@ -27,7 +44,7 @@ allprojects {
 }
 ```
 
-## App 相關設定
+### App 相關設定
 
 #### build.gradle
 
@@ -38,7 +55,7 @@ allprojects {
 * dependencies - 定義 Y2 相關的 JAR & AAR 等檔案。檔案儲存在 __libs__ 資料夾下。
 
 
-``` gradle
+``` yaml
 android {
     ...
     defaultConfig {
@@ -84,7 +101,7 @@ dependencies {
 
 #### AndroidManifest.xml
 
-* android:name - 設定啟動應用程式類別，用來初始化 Y2 Library 運行環境。
+* android:name - 設定啟動應用程式類別，用來初始化 Y2 Java Library 運行環境。
 
 * android.permission.INTERNET - 設定允許網路操作。
 
@@ -99,7 +116,7 @@ dependencies {
 
 #### MainApplication.java
 
-AndroidManifest.xml 中 __android:name__ 指定的類別，應用程式的啟動點。
+此類別即 AndroidManifest.xml 中 __android:name__ 指定的類別，應用程式的啟動點。
 
 ``` Java
 package onbon.y2.mobiledemo;
@@ -123,26 +140,16 @@ public class MainApplication extends Application {
         // 設定圖案是要抗鋸齒
         Env2a.configPaintAntiAliasFlag(true);      
 
-        // 初始化 Y2 Library 運行環境
+        // 初始化 Y2 JAVA Library 運行在 Android 上
         Y2Env.initial(true);        
 
-        // 預設 Y2 Font        
+        // 邊更 Y2 預設的字型        
         Y2Font.defaultFont("Droid", 40, Y2FontSizeType.PIXEL);
     }
 }
 ```
 
 ## 開發注意事項
-
-#### Screen (控制器) 操作
-因為 Socket Client 不得執行於 UI 線程上，所以對 Screen 的操作都須在新的線程上，方能正確工作。
-``` Java
-new Thread(new Runnable() {
-    public void run() {
-        // 操作 Screen
-    }
-}).start();
-```
 
 #### UI 更新
 在非 UI 線程上操作 Screen 後，欲將結果回報至 UI 時，利用 __runOnUiThread__ 方法。
